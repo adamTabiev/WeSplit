@@ -10,10 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var checkAmount = 0.0 // общая сумма чека
     @State private var numberOfPeople = 2 // колличество людей
-    @State private var tipPercentage = 20 // процент чаевых
+    @State private var tipPercentage = 10 // процент чаевых
     @FocusState private var amountIsFocused: Bool
-    
-    let tipPercentages = [10, 15, 20, 25, 0] // массив процентов чаевых
     
     // MARK: вычисляемое свойство: общая сумма вместе с чаевыми с человека.
     var totalPerPerson: Double {
@@ -51,13 +49,23 @@ struct ContentView: View {
                     }
                 }
                 
+//                Section {
+//                    Picker("Tip percentage", selection: $tipPercentage) {
+//                        ForEach(tipPercentages, id: \.self) {
+//                            Text($0, format: .percent)
+//                        }
+//                    }
+//                    .pickerStyle(.segmented)
+//                } header: {
+//                    Text("How much tip do you want to leave")
+//                }
+                
                 Section {
                     Picker("Tip percentage", selection: $tipPercentage) {
-                        ForEach(tipPercentages, id: \.self) {
+                        ForEach(0..<101, id: \.self) {
                             Text($0, format: .percent)
                         }
                     }
-                    .pickerStyle(.segmented)
                 } header: {
                     Text("How much tip do you want to leave")
                 }
@@ -74,6 +82,8 @@ struct ContentView: View {
                     Text("total Amount")
                 }
                 
+                
+                
             }
             .navigationTitle("WeSplit")
             .toolbar {
@@ -87,6 +97,10 @@ struct ContentView: View {
         }
     }
 }
+
+
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
