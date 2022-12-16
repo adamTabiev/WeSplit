@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var checkAmount = 0.0
-    @State private var numberOfPeople = 2
-    @State private var tipPercentage = 20
+    @State private var checkAmount = 0.0 // общая сумма чека
+    @State private var numberOfPeople = 2 // колличество людей
+    @State private var tipPercentage = 20 // процент чаевых
     @FocusState private var amountIsFocused: Bool
     
-    let tipPercentages = [10, 15, 20, 25, 0]
+    let tipPercentages = [10, 15, 20, 25, 0] // массив процентов чаевых
     
-    // вычисляемое свойство: общая сумма с человека.
+    // MARK: вычисляемое свойство: общая сумма вместе с чаевыми с человека.
     var totalPerPerson: Double {
         let peopleCount = Double(numberOfPeople + 2) // количество людей
         let tipSelection = Double(tipPercentage)     // процент чаевых
@@ -24,7 +24,16 @@ struct ContentView: View {
         let grandTotal = checkAmount + tipValue          // общий счёт вместе с чаевыми
         let amountPerPerson = grandTotal / peopleCount    // конечная сумма с человека вместе с чаевыми
         
-        return amountPerPerson
+        return amountPerPerson // конечная сумма с человека вместе с чаевыми
+    }
+    
+    // MARK: вычисляемое свойство: общая сумма со всех вместе с чаевыми.
+    var grandTotalSum: Double {
+        let tipSelection = Double(tipPercentage)     // процент чаевых
+        let tipValue = checkAmount / 100 * tipSelection  // общая сумма оставляемых чаевых
+        let grandTotalSum = checkAmount + tipValue          // общий счёт вместе с чаевыми
+        
+        return grandTotalSum // возращаем общую сумму со всех вместе с чаевыми
     }
     
     var body: some View {
@@ -58,6 +67,13 @@ struct ContentView: View {
                 } header: {
                     Text("Check amount")
                 }
+                
+                Section {
+                    Text(grandTotalSum, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                } header: {
+                    Text("total Amount")
+                }
+                
             }
             .navigationTitle("WeSplit")
             .toolbar {
